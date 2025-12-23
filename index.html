@@ -1,141 +1,255 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Portada</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz Navidad</title>
 
-  <style>
-    body{
-      margin:0;
-      background:#8e3d9b;
-      height:100vh;
-      font-family: Arial, Helvetica, sans-serif;
-      overflow:hidden;
-    }
+<style>
+:root{
+  --bg:#8e3d9b;
+  --stroke:#000;
+  --glow:rgba(255,255,255,.6);
+}
 
-    .container{
-      position:relative;
-      width:100%;
-      height:100%;
-    }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-    /* TEXTO CENTRAL */
-    .center-text{
-      position:absolute;
-      top:50%;
-      left:50%;
-      transform:translate(-50%,-50%);
-      text-align:center;
-      color:#000;
-    }
+body{
+  background:var(--bg);
+  min-height:100vh;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-    .center-text h1{
-      font-size:42px;
-      margin:0;
-    }
+/* ================= ESCENARIO ================= */
+.stage{
+  position:relative;
+  width:100%;
+  height:100vh;
+  overflow:hidden;
+}
 
-    .center-text p{
-      margin-top:6px;
-      font-size:14px;
-      opacity:0.8;
-    }
+/* ================= CENTRO ================= */
+.center{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  z-index:2;
+}
 
-    /* MODULOS */
-    .module{
-      position:absolute;
-      width:520px;
-      height:140px;
-      background:white;
-      border-radius:40px;
-      border:4px solid black;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:28px;
-      font-weight:bold;
-      box-shadow:0 0 30px rgba(255,255,255,0.5);
-      transition:transform 0.25s ease;
-      cursor:pointer;
+/* IMAGEN CENTRAL */
+.center-img{
+  width:260px;
+  max-width:70vw;
+  animation:softPulse 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 25px rgba(255,255,255,.6));
+}
 
-      /* IMPORTANTE PARA LINKS */
-      text-decoration:none;
-      color:#000;
-    }
+@keyframes softPulse{
+  0%,100%{ transform:scale(1); }
+  50%{ transform:scale(1.06); }
+}
 
-    .module:hover{
-      transform:scale(1.05);
-    }
+/* ================= RECUADROS ================= */
+.module{
+  position:absolute;
+  width:520px;
+  height:170px;
+  background:#fff;
+  border:4px solid var(--stroke);
+  border-radius:45px;
 
-    /* POSICIONES */
-    .top{
-      top:40px;
-      left:50%;
-      transform:translateX(-50%);
-    }
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  font-weight:600;
+  z-index:3;
 
-    .left{
-      bottom:40px;
-      left:40px;
-    }
+  box-shadow:
+    0 0 0 6px rgba(255,255,255,.2),
+    0 0 35px var(--glow),
+    0 15px 30px rgba(0,0,0,.25);
+}
 
-    .right{
-      bottom:40px;
-      right:40px;
-    }
+/* Posiciones PC */
+.top{
+  top:30px;
+  left:50%;
+  animation:pulseTop 2.2s ease-in-out infinite;
+}
 
-    /* RESPONSIVE CELULAR */
-    @media (max-width:600px){
-      .module{
-        width:90%;
-        height:120px;
-        font-size:22px;
-      }
+.left{
+  bottom:30px;
+  left:30px;
+  animation:pulse 2.2s ease-in-out infinite .25s;
+}
 
-      .top{
-        top:20px;
-      }
+.right{
+  bottom:30px;
+  right:30px;
+  animation:pulse 2.2s ease-in-out infinite .5s;
+}
 
-      .left{
-        bottom:170px;
-        left:50%;
-        transform:translateX(-50%);
-      }
+/* Animaciones */
+@keyframes pulse{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.05);}
+}
 
-      .right{
-        bottom:20px;
-        right:auto;
-        left:50%;
-        transform:translateX(-50%);
-      }
-    }
-  </style>
+@keyframes pulseTop{
+  0%,100%{transform:translateX(-50%) scale(1);}
+  50%{transform:translateX(-50%) scale(1.05);}
+}
+
+/* ================= TULIPANES ================= */
+.tulip{
+  position:absolute;
+  bottom:0;
+  width:120px;
+  height:520px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  z-index:1;
+}
+
+/* Flor */
+.flower{
+  width:100px;
+  height:90px;
+  background:#7a1fa2;
+  border-radius:0 0 50px 50px;
+  position:relative;
+  box-shadow:0 0 25px rgba(255,255,255,.45);
+}
+
+.flower::before,
+.flower::after{
+  content:"";
+  position:absolute;
+  width:50px;
+  height:70px;
+  background:#8e24aa;
+  top:-40px;
+  border-radius:50px 50px 0 0;
+}
+
+.flower::before{ left:0; }
+.flower::after{ right:0; }
+
+/* Tallo */
+.stem{
+  width:10px;
+  height:340px;
+  background:#2e7d32;
+  border-radius:6px;
+  position:relative;
+}
+
+/* Hojas */
+.leaf{
+  position:absolute;
+  width:70px;
+  height:30px;
+  background:#388e3c;
+  border-radius:40px 0 40px 0;
+}
+
+.leaf.left{
+  left:-60px;
+  top:120px;
+  transform:rotate(-25deg);
+}
+
+.leaf.right{
+  right:-60px;
+  top:180px;
+  transform:rotate(25deg);
+}
+
+/* Posiciones tulipanes */
+.leftTulip{ left:50px; }
+.rightTulip{ right:50px; }
+
+/* ================= RESPONSIVE CELULAR ================= */
+@media (max-width: 600px){
+
+  .module{
+    width:90%;
+    height:120px;
+    font-size:22px;
+  }
+
+  .top{
+    top:20px;
+  }
+
+  .left{
+    left:50%;
+    bottom:170px;
+    transform:translateX(-50%);
+  }
+
+  .right{
+    left:50%;
+    right:auto;
+    bottom:20px;
+    transform:translateX(-50%);
+  }
+
+  .center-img{
+    width:180px;
+  }
+
+  .tulip{
+    display:none;
+  }
+}
+</style>
 </head>
 
 <body>
-  <div class="container">
 
-    <!-- CUADRO SUPERIOR → CARTA -->
-    <a class="module top" href="Navidad_2.html">
-      🎄 Feliz Navidad
-    </a>
+<div class="stage">
 
-    <!-- TEXTO CENTRAL -->
-    <div class="center-text">
-      <h1>Imagen o gif</h1>
-      <p>(aquí luego lo ponemos)</p>
+  <!-- Tulipanes -->
+  <div class="tulip leftTulip">
+    <div class="flower"></div>
+    <div class="stem">
+      <div class="leaf left"></div>
+      <div class="leaf right"></div>
     </div>
-
-    <!-- CUADRO IZQUIERDO -->
-    <a class="module left" href="#">
-      Poema
-    </a>
-
-    <!-- CUADRO DERECHO -->
-    <a class="module right" href="#">
-      Secret 🤫
-    </a>
-
   </div>
+
+  <div class="tulip rightTulip">
+    <div class="flower"></div>
+    <div class="stem">
+      <div class="leaf left"></div>
+      <div class="leaf right"></div>
+    </div>
+  </div>
+
+  <!-- Recuadros -->
+  <a class="module top" href="Navidad_2.html">🎄 Feliz Navidad</a>
+  <a class="module left" href="#">Poema</a>
+  <a class="module right" href="#">Secret 🤫</a>
+
+  <!-- Imagen central -->
+  <div class="center">
+    <img src="kawa_nuevo.png" alt="Imagen navideña" class="center-img">
+  </div>
+
+</div>
+
+</body>
+</html>
+
+</div>
+
 </body>
 </html>
