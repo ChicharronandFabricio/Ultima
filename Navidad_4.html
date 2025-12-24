@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Secret</title>
+
+<style>
+  :root{
+    --bg:#8e3d9b;
+    --stroke:#000;
+    --glow:rgba(255,255,255,.6);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  body{
+    background:var(--bg);
+    min-height:100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:28px;
+  }
+
+  /* ====== CONTENEDOR PRINCIPAL (NO BLANCO INFINITO) ====== */
+  .card{
+    width:min(1050px, 95vw);
+    background:#fff;
+    border:4px solid var(--stroke);
+    border-radius:42px;
+    box-shadow:
+      0 0 0 6px rgba(255,255,255,.2),
+      0 0 35px var(--glow),
+      0 20px 40px rgba(0,0,0,.25);
+    overflow:hidden;
+  }
+
+  .inner{
+    padding:38px 40px 34px;
+  }
+
+  .title{
+    font-size:64px;
+    font-weight:900;
+    letter-spacing:.5px;
+    margin-bottom:16px;
+  }
+
+  .text{
+    font-size:26px;
+    line-height:1.45;
+    margin-bottom:22px;
+  }
+
+  .btnRow{
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px;
+    margin-top:18px;
+  }
+
+  .btn{
+    border:3px solid #000;
+    background:#fff;
+    border-radius:999px;
+    padding:14px 22px;
+    font-size:20px;
+    font-weight:700;
+    cursor:pointer;
+    transition:transform .15s ease, background .2s ease;
+  }
+
+  .btn:hover{
+    transform:scale(1.03);
+    background:#f3e5f5;
+  }
+
+  /* ====== TRANSICIÓN ENTRE CUADROS ====== */
+  .screen{
+    display:none;
+    opacity:0;
+    transform:translateY(6px);
+    transition:opacity .28s ease, transform .28s ease;
+  }
+  .screen.active{
+    display:block;
+    opacity:1;
+    transform:translateY(0);
+  }
+  .fadeOut{
+    opacity:0 !important;
+    transform:translateY(6px) !important;
+  }
+
+  /* ====== CUADRO PLAY ====== */
+  .playWrap{
+    margin-top:18px;
+    border:4px solid #000;
+    border-radius:34px;
+    padding:22px;
+  }
+
+  .playBox{
+    border:4px solid #000;
+    border-radius:28px;
+    padding:22px;
+    display:flex;
+    align-items:center;
+    gap:22px;
+  }
+
+  .playBtn{
+    width:76px;
+    height:76px;
+    border:4px solid #000;
+    border-radius:18px;
+    background:#fff;
+    display:grid;
+    place-items:center;
+    cursor:pointer;
+    flex:0 0 auto;
+  }
+
+  .triangle{
+    width:0; height:0;
+    border-top:14px solid transparent;
+    border-bottom:14px solid transparent;
+    border-left:22px solid #2ecc71; /* triangulo verde */
+    margin-left:4px;
+  }
+
+  .msgArea{
+    flex:1;
+    min-height:110px;
+    padding:6px 4px;
+  }
+
+  .msgLine{
+    font-size:24px;
+    line-height:1.35;
+    opacity:0;
+    transition:opacity .6s ease;
+  }
+  .msgLine.show{ opacity:1; }
+
+  /* ====== MODAL FINAL ====== */
+  .overlay{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:22px;
+    background:rgba(0,0,0,.35);
+    z-index:999;
+  }
+  .overlay.show{ display:flex; }
+
+  .finalCard{
+    width:min(620px, 92vw);
+    background:#fff;
+    border:4px solid #000;
+    border-radius:34px;
+    padding:34px 28px;
+    text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+  }
+
+  .finalTitle{
+    font-size:56px;
+    font-weight:900;
+    margin-bottom:10px;
+  }
+  .finalSub{
+    font-size:26px;
+    margin-bottom:20px;
+    letter-spacing:.5px;
+  }
+
+  @media (max-width: 600px){
+    .title{ font-size:44px; }
+    .text{ font-size:20px; }
+    .btn{ font-size:16px; padding:12px 18px; }
+    .playBtn{ width:66px; height:66px; }
+    .msgLine{ font-size:19px; }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="inner">
+
+    <!-- ===== SCREEN 1 ===== -->
+    <section class="screen active" id="s1">
+      <div class="title">Secret</div>
+      <div class="text">
+        Si presionaste Secret es porque ya viste Feliz Navidad y Poema.<br>
+        Si no es así por favor míralos primero y regresa después.
+      </div>
+
+      <div class="btnRow">
+        <button class="btn" onclick="go('s2')">Sí, ya lo mire</button>
+        <button class="btn" onclick="volverPrincipal()">No, no mire aún :(</button>
+      </div>
+    </section>
+
+    <!-- ===== SCREEN 2 ===== -->
+    <section class="screen" id="s2">
+      <div class="title">Secret</div>
+      <div class="text">
+        Mui bien, ahora esto se supone que es algo para año nuevo así que no lo mires,<br>
+        tendras que esperar HUAJAJAJAJA xd
+      </div>
+
+      <div class="btnRow">
+        <button class="btn" onclick="go('s3')">No me importa, igual lo mirare</button>
+        <button class="btn" onclick="go('s3')">que te kchen</button>
+      </div>
+    </section>
+
+    <!-- ===== SCREEN 3 ===== -->
+    <section class="screen" id="s3">
+      <div class="title">Secret</div>
+      <div class="text">
+        Oe que haces aca, regresa a la principal esto es pa año nuevo &gt;:V,<br>
+        cierra la pestaña al toque YA
+      </div>
+
+      <div class="btnRow">
+        <button class="btn" onclick="go('s3ok')">Esta bien, lo cerrare amiwito</button>
+        <button class="btn" onclick="go('s4')">soy impaciente igual lo mirare</button>
+      </div>
+    </section>
+
+    <!-- ===== SCREEN 3 OK ===== -->
+    <section class="screen" id="s3ok">
+      <div class="title">Secret</div>
+      <div class="text">
+        Mui bien, regresa pal 31
+      </div>
+      <div class="btnRow">
+        <button class="btn" onclick="volverPrincipal()">Volver a la principal</button>
+      </div>
+    </section>
+
+    <!-- ===== SCREEN 4 ===== -->
+    <section class="screen" id="s4">
+      <div class="title">Secret</div>
+      <div class="text">
+        Está bien...<br>
+        Si estás mirando esto y no es 31, no importa,<br>
+        ya sabía que ibas a mirar JAJA.<br><br>
+        Y si no es así (o sea sí esperaste), felicidades,<br>
+        eso demuestra que tienes paciencia xd.
+      </div>
+
+      <div class="btnRow">
+        <button class="btn" onclick="volverPrincipal()">Volver a la principal</button>
+        <button class="btn" onclick="go('s5intro')">Continuar</button>
+      </div>
+    </section>
+
+    <!-- ===== SCREEN 5 INTRO (4s, luego aparece PLAY) ===== -->
+    <section class="screen" id="s5intro">
+      <div class="title">Secret</div>
+      <div class="text" id="introText">
+        inkreible, bueno aquí vamos con la parte cursi xddd
+      </div>
+    </section>
+
+    <!-- ===== SCREEN 6 PLAY ===== -->
+    <section class="screen" id="s6play">
+      <div class="title">Secret</div>
+
+      <div class="playWrap">
+        <div class="playBox">
+          <div class="playBtn" id="playBtn" aria-label="Play">
+            <div class="triangle" id="tri"></div>
+          </div>
+
+          <div class="msgArea">
+            <div class="msgLine" id="msgLine"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audio (debe estar en GitHub con este nombre) -->
+      <audio id="audio" src="musica_1.mp3" preload="auto"></audio>
+    </section>
+
+  </div>
+</div>
+
+<!-- ===== MODAL FINAL ===== -->
+<div class="overlay" id="finalOverlay">
+  <div class="finalCard">
+    <div class="finalTitle">FELIZ AÑO NUEVO</div>
+    <div class="finalSub"></div>
+    <button class="btn" onclick="closeFinal()">Ok</button>
+  </div>
+</div>
+
+<script>
+  function volverPrincipal(){
+    window.location.href = "index.html";
+  }
+
+  function go(id){
+    const current = document.querySelector(".screen.active");
+    const next = document.getElementById(id);
+
+    if(!next) return;
+
+    current.classList.add("fadeOut");
+
+    setTimeout(()=>{
+      current.classList.remove("active","fadeOut");
+      next.classList.add("active");
+      // si entro al intro, hago la animación de 4s
+      if(id === "s5intro"){
+        setTimeout(()=>{
+          // desvanecer intro y pasar a play
+          const intro = document.getElementById("s5intro");
+          intro.classList.add("fadeOut");
+          setTimeout(()=>{
+            intro.classList.remove("active","fadeOut");
+            document.getElementById("s6play").classList.add("active");
+          }, 320);
+        }, 4000);
+      }
+    }, 320);
+  }
+
+  // ===== Mensajes con duración (en ms) =====
+  const sequence = [
+    ["olaaa, por ultima vez este año", 4000],
+    ["este ultimo mensaje final es rapido....", 4000],
+    ["Creo... -.-", 2000],
+    ["Cada vez que termina un año... suelo pensar que fantasticas cosas hice este año y este año 1 de ella fue conocerte uwu", 6000],
+    ["Aunque como soy imbecil, quizas me equivoque de palabras o diga algo tonto jaja XD", 5000],
+    ["Pensar que todo comenzo con una clase de fisica 2... y yo rechazandote a enseñarte JAJAJ", 5000],
+    ["Conociendo mas de ti cada dia como si fueramos amigos de siempre  :b", 5000],
+    ["Pasando momento malos... pero apoyandonos el uno al otro uuuuuu", 4000],
+    ["Quizas solo llevo conociendo 1 año pero para mi fue la primera vez que estableci tanta confianza en alguien", 6000],
+    ["Por tu manera de ser, divertida, bonita, me tratabas bien la mayoria de tiempo JAJA", 4000],
+    ["No por algo me gustaste... mensaje rapido FLASH", 2000],
+    ["Este año 2026 sera mejor que el anterior y estaré contigo apoyándote tanto en estudios como en vida personal", 5000],
+    ["FELIZ AÑO y que este año solo venga pura felicidad, se te quiere uwu", 5000],
+    ["...", 6000],
+    ["tal vez en otro universo si llegue a estar contigo JAJAJAJ", 3000],
+    ["CHAU", 2000],
+  ];
+
+  const audio = document.getElementById("audio");
+  const playBtn = document.getElementById("playBtn");
+  const msgLine = document.getElementById("msgLine");
+
+  let started = false;
+  let running = false;
+
+  function sleep(ms){ return new Promise(r=>setTimeout(r, ms)); }
+
+  async function runMessages(){
+    running = true;
+
+    for(const [text, dur] of sequence){
+      msgLine.textContent = text;
+      msgLine.classList.add("show");
+      await sleep(dur);
+
+      // fade out corto
+      msgLine.classList.remove("show");
+      await sleep(700);
+    }
+
+    running = false;
+    showFinal();
+  }
+
+  function toggleAudio(){
+    // Primera vez: al darle play recién salen mensajes
+    if(!started){
+      started = true;
+      // intentamos play (en algunos celulares requiere interacción -> esto cuenta)
+      audio.play().catch(()=>{});
+      runMessages();
+      return;
+    }
+
+    // si ya empezó: solo play/pause
+    if(audio.paused) audio.play().catch(()=>{});
+    else audio.pause();
+  }
+
+  playBtn.addEventListener("click", toggleAudio);
+
+  function showFinal(){
+    // parar audio por si acaso
+    try{ audio.pause(); }catch(e){}
+    document.getElementById("finalOverlay").classList.add("show");
+  }
+
+  function closeFinal(){
+    document.getElementById("finalOverlay").classList.remove("show");
+    volverPrincipal();
+  }
+</script>
+
+</body>
+</html>
